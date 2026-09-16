@@ -124,3 +124,36 @@ test('toGoogleMapsUrl builds a Maps URLs API search link', () => {
     'https://www.google.com/maps/search/?api=1&query=40.7128%2C-74.006'
   );
 });
+
+const { parseHome, toGoogleMapsDirectionsUrl } = require('../src/parser.js');
+
+test('parseHome accepts coordinates in any format', () => {
+  assert.deepEqual(parseHome('40.7128, -74.0060'), NYC);
+  assert.deepEqual(parseHome(`40${DEG}42'46"N 74${DEG}00'21"W`), NYC_DMS);
+});
+
+test('parseHome keeps an address as text', () => {
+  assert.equal(parseHome('  1600 Pennsylvania Ave NW, Washington, DC 20500 '), '1600 Pennsylvania Ave NW, Washington, DC 20500');
+  assert.equal(parseHome('123 N 40th St, Springfield'), '123 N 40th St, Springfield');
+});
+
+test('parseHome returns null for blank input', () => {
+  assert.equal(parseHome(''), null);
+  assert.equal(parseHome('   '), null);
+  assert.equal(parseHome(null), null);
+  assert.equal(parseHome(undefined), null);
+});
+
+test('toGoogleMapsDirectionsUrl with coordinate origin', () => {
+  assert.equal(
+    toGoogleMapsDirectionsUrl({ lat: 51.5074, lng: -0.1278 }, NYC),
+    'https://www.google.com/maps/dir/?api=1&origin=51.5074%2C-0.1278&destination=40.7128%2C-74.006'
+  );
+});
+
+test('toGoogleMapsDirectionsUrl with address origin', () => {
+  assert.equal(
+    toGoogleMapsDirectionsUrl('1600 Pennsylvania Ave NW, Washington, DC', NYC),
+    'https://www.google.com/maps/dir/?api=1&origin=1600%20Pennsylvania%20Ave%20NW%2C%20Washington%2C%20DC&destination=40.7128%2C-74.006'
+  );
+});

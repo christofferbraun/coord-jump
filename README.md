@@ -13,6 +13,10 @@ opens the map for you.
 - **Keyboard**: select text, press `Alt+Shift+G` (change it in your browser's
   extension shortcut settings)
 - **Toolbar button**: paste coordinates into the popup and hit Enter
+- **Navigate from home** (optional): set a home location in the extension
+  settings (coordinates or a street address) and tick the checkbox. A second
+  right-click entry and popup button then open Google Maps directions from
+  home to the selected coordinates.
 
 ## Formats understood
 
@@ -61,6 +65,7 @@ dependencies, so new formats can be added test-first in
 - `contextMenus` – the right-click entry
 - `activeTab` + `scripting` – read the selection when the keyboard shortcut is used
 - `notifications` – tell you when no coordinates were found
+- `storage` – remember your home location and settings (synced with your browser account)
 
 No data leaves your browser except the coordinates in the Google Maps URL it opens.
 

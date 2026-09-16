@@ -1,15 +1,16 @@
 /*
  * Background script. In Chrome this runs as a service worker (so it pulls
- * parser.js in with importScripts); in Firefox it runs as an event page with
- * parser.js already loaded via manifest background.scripts.
+ * its dependencies in with importScripts); in Firefox it runs as an event
+ * page with them already loaded via manifest background.scripts.
  */
 'use strict';
 
 if (typeof CoordJump === 'undefined' && typeof importScripts === 'function') {
-  importScripts('parser.js');
+  importScripts('parser.js', 'settings.js');
 }
 
-const MENU_ID = 'coord-jump-open';
+const MENU_OPEN = 'coord-jump-open';
+const MENU_FROM_HOME = 'coord-jump-from-home';
 
 function notify(message) {
   chrome.notifications.create({
@@ -20,31 +21,59 @@ function notify(message) {
   });
 }
 
-/** Parse text and open Google Maps in a new tab next to the current one. */
+function openNextTo(url, tab) {
+  return chrome.tabs.create({
+    url,
+    index: tab ? tab.index + 1 : undefined,
+    openerTabId: tab ? tab.id : undefined,
+  });
+}
+
+/** Parse text and open the location in Google Maps next to the current tab. */
 async function jump(text, tab) {
   const coords = CoordJump.parseCoordinates(text);
   if (!coords) {
     notify('No latitude/longitude found in the selected text.');
     return false;
   }
-  await chrome.tabs.create({
-    url: CoordJump.toGoogleMapsUrl(coords),
-    index: tab ? tab.index + 1 : undefined,
-    openerTabId: tab ? tab.id : undefined,
-  });
+  await openNextTo(CoordJump.toGoogleMapsUrl(coords), tab);
   return true;
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: MENU_ID,
-    title: 'Open in Google Maps',
-    contexts: ['selection'],
-  });
-});
+/** Parse text and open directions from the configured home to it. */
+async function jumpFromHome(text, tab) {
+  const coords = CoordJump.parseCoordinates(text);
+  if (!coords) {
+    notify('No latitude/longitude found in the selected text.');
+    return false;
+  }
+  const settings = await CoordJumpSettings.get();
+  if (!settings.homeActive) {
+    notify('Set a home location in the Coord Jump settings first.');
+    return false;
+  }
+  await openNextTo(CoordJump.toGoogleMapsDirectionsUrl(settings.homeOrigin, coords), tab);
+  return true;
+}
+
+/** (Re)create the context menu to match current settings. */
+async function buildMenus() {
+  const settings = await CoordJumpSettings.get();
+  await chrome.contextMenus.removeAll();
+  chrome.contextMenus.create({ id: MENU_OPEN, title: 'Open in Google Maps', contexts: ['selection'] });
+  if (settings.homeActive) {
+    chrome.contextMenus.create({ id: MENU_FROM_HOME, title: 'Navigate from home', contexts: ['selection'] });
+  }
+}
+
+chrome.runtime.onInstalled.addListener(buildMenus);
+chrome.runtime.onStartup.addListener(buildMenus);
+CoordJumpSettings.onChange(buildMenus);
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === MENU_ID) jump(info.selectionText || '', tab);
+  const text = info.selectionText || '';
+  if (info.menuItemId === MENU_OPEN) jump(text, tab);
+  else if (info.menuItemId === MENU_FROM_HOME) jumpFromHome(text, tab);
 });
 
 // Keyboard shortcut: grab the current selection from the active tab.

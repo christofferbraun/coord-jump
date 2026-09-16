@@ -259,7 +259,27 @@
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
   }
 
-  const api = { parseCoordinates, toGoogleMapsUrl, normalize, tokenize };
+  /**
+   * Directions from `origin` to `coords`. `origin` is either a {lat, lng}
+   * object or a free-text place/address string, which Google resolves itself.
+   */
+  function toGoogleMapsDirectionsUrl(origin, coords) {
+    const o = typeof origin === 'string' ? origin.trim() : `${origin.lat},${origin.lng}`;
+    const d = `${coords.lat},${coords.lng}`;
+    return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`;
+  }
+
+  /**
+   * A home location as typed by the user: coordinates in any supported
+   * format, or an address. Returns null for blank input.
+   */
+  function parseHome(text) {
+    const s = String(text == null ? '' : text).trim();
+    if (!s) return null;
+    return parseCoordinates(s) || s;
+  }
+
+  const api = { parseCoordinates, parseHome, toGoogleMapsUrl, toGoogleMapsDirectionsUrl, normalize, tokenize };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.CoordJump = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

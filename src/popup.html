@@ -11,9 +11,12 @@
     <textarea id="input" rows="3" placeholder="40.7128, -74.0060&#10;40&deg;42'46&quot;N 74&deg;00'21&quot;W&#10;lat: 40.7128 lon: -74.0060" autofocus></textarea>
     <div id="preview" class="preview" aria-live="polite"></div>
     <button id="go" type="submit" disabled>Open in Google Maps</button>
+    <button id="from-home" type="button" class="secondary" disabled hidden>Navigate from home</button>
   </form>
   <p class="hint">Tip: highlight coordinates on any page, then right-click &rarr; <b>Open in Google Maps</b>, or press <kbd id="shortcut">Alt+Shift+G</kbd>.</p>
+  <p class="hint"><a id="settings" href="#">Settings</a></p>
   <script src="parser.js"></script>
+  <script src="settings.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

@@ -10,9 +10,19 @@
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
   },
-  "permissions": ["contextMenus", "activeTab", "scripting", "notifications"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "notifications",
+    "storage"
+  ],
   "background": {
-    "scripts": ["src/parser.js", "src/background.js"],
+    "scripts": [
+      "src/parser.js",
+      "src/settings.js",
+      "src/background.js"
+    ],
     "service_worker": "src/background.js"
   },
   "action": {
@@ -23,9 +33,15 @@
       "32": "icons/icon-32.png"
     }
   },
+  "options_ui": {
+    "page": "src/options.html",
+    "open_in_tab": false
+  },
   "commands": {
     "jump-to-selection": {
-      "suggested_key": { "default": "Alt+Shift+G" },
+      "suggested_key": {
+        "default": "Alt+Shift+G"
+      },
       "description": "Open the selected coordinates in Google Maps"
     }
   },
@@ -33,7 +49,11 @@
     "gecko": {
       "id": "coord-jump@christofferbraun.github.io",
       "strict_min_version": "121.0",
-      "data_collection_permissions": { "required": ["none"] }
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   }
 }

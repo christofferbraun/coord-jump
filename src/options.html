@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Coord Jump settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <h1>Coord Jump settings</h1>
+
+  <section>
+    <h2>Home location</h2>
+    <p>Used as the starting point for <b>Navigate from home</b>. Enter coordinates in any format, or a street address.</p>
+    <label for="home">Home</label>
+    <input id="home" type="text" placeholder="40.7128, -74.0060  or  1600 Pennsylvania Ave NW, Washington, DC" autocomplete="off">
+    <div id="home-preview" class="preview" aria-live="polite"></div>
+
+    <label class="check">
+      <input id="home-enabled" type="checkbox">
+      <span>Show <b>Navigate from home</b> in the right-click menu and the popup</span>
+    </label>
+    <p id="home-note" class="note" hidden>Enter a home location above to enable this.</p>
+  </section>
+
+  <p class="status" id="status" aria-live="polite"></p>
+
+  <script src="parser.js"></script>
+  <script src="settings.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
