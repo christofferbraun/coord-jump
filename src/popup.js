@@ -21,6 +21,7 @@ function update() {
   go.disabled = !coords;
   fromHome.disabled = !coords;
   fromHome.hidden = !settings.homeActive;
+  document.getElementById('home-hint').hidden = !settings.homeActive;
 }
 
 function open(url) {
@@ -52,10 +53,12 @@ document.getElementById('settings').addEventListener('click', (e) => {
 
 CoordJumpSettings.get().then((s) => { settings = s; update(); });
 
-// Show the shortcut the user actually has configured, if it differs.
+// Show the shortcuts the user actually has configured, if they differ.
 chrome.commands.getAll().then((cmds) => {
-  const cmd = cmds.find((c) => c.name === 'jump-to-selection');
-  const el = document.getElementById('shortcut');
-  if (cmd && cmd.shortcut) el.textContent = cmd.shortcut;
-  else if (cmd) el.textContent = 'no shortcut set';
+  for (const [name, id] of [['jump-to-selection', 'shortcut'], ['jump-from-home', 'shortcut-home']]) {
+    const cmd = cmds.find((c) => c.name === name);
+    const el = document.getElementById(id);
+    if (cmd && cmd.shortcut) el.textContent = cmd.shortcut;
+    else if (cmd) el.textContent = 'no shortcut set';
+  }
 }).catch(() => {});

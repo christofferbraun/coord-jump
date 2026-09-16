@@ -15,8 +15,8 @@ opens the map for you.
 - **Toolbar button**: paste coordinates into the popup and hit Enter
 - **Navigate from home** (optional): set a home location in the extension
   settings (coordinates or a street address) and tick the checkbox. A second
-  right-click entry and popup button then open Google Maps directions from
-  home to the selected coordinates. (Browsers put an extension's menu items
+  right-click entry, popup button, and keyboard shortcut (`Alt+Shift+H`) then
+  open Google Maps directions from home to the selected coordinates. (Browsers put an extension's menu items
   into a **Coord Jump** submenu as soon as there is more than one; that is
   enforced by Firefox and Chrome, not something the extension can change.)
 
@@ -65,9 +65,8 @@ npm run package    # store-ready zips in dist/
 
 The parser lives in [`src/parser.js`](src/parser.js) and has no browser
 dependencies, so new formats can be added test-first in
-[`test/parser.test.js`](test/parser.test.js). See
-[`PUBLISHING.md`](PUBLISHING.md) for the store submission checklist and
-[`PRIVACY.md`](PRIVACY.md) for the privacy policy.
+[`test/parser.test.js`](test/parser.test.js). The privacy policy used for
+the store listings is [`PRIVACY.md`](PRIVACY.md).
 
 ## Permissions
 

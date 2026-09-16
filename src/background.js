@@ -76,9 +76,15 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   else if (info.menuItemId === MENU_FROM_HOME) jumpFromHome(text, tab);
 });
 
-// Keyboard shortcut: grab the current selection from the active tab.
+const COMMANDS = {
+  'jump-to-selection': jump,
+  'jump-from-home': jumpFromHome,
+};
+
+// Keyboard shortcuts: grab the current selection from the active tab.
 chrome.commands.onCommand.addListener(async (command) => {
-  if (command !== 'jump-to-selection') return;
+  const action = COMMANDS[command];
+  if (!action) return;
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab || tab.id == null) return;
   let text = '';
@@ -97,5 +103,5 @@ chrome.commands.onCommand.addListener(async (command) => {
     notify('Select some text containing coordinates first.');
     return;
   }
-  jump(text, tab);
+  action(text, tab);
 });

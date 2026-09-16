@@ -42,6 +42,12 @@
         "default": "Alt+Shift+G"
       },
       "description": "Open the selected coordinates in Google Maps"
+    },
+    "jump-from-home": {
+      "suggested_key": {
+        "default": "Alt+Shift+H"
+      },
+      "description": "Open directions from home to the selected coordinates"
     }
   },
   "browser_specific_settings": {
