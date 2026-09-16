@@ -40,25 +40,32 @@ Not (yet) supported: UTM, MGRS, Plus Codes, what3words.
 
 ## Install from source
 
-**Firefox**: open `about:debugging#/runtime/this-firefox` → **Load Temporary
-Add-on…** → pick `manifest.json`.
+The repo root is the **Firefox** extension. Chrome needs a slightly different
+manifest, so build it first.
 
-**Chrome**: open `chrome://extensions`, enable **Developer mode** → **Load
-unpacked** → pick this folder.
+**Firefox**: open `about:debugging#/runtime/this-firefox` → **Load Temporary
+Add-on…** → pick `manifest.json` in the repo root.
+
+**Chrome**: run `npm run build`, then open `chrome://extensions`, enable
+**Developer mode** → **Load unpacked** → pick the `dist/chrome` folder.
+Re-run the build after changing files.
 
 ## Development
 
 ```
-npm test          # parser unit tests (node --test, no dependencies)
-npm install       # only needed for the web-ext scripts below
-npm run lint      # web-ext lint
+npm test           # parser unit tests (node --test, no dependencies)
+npm run build      # dist/firefox and dist/chrome with per-browser manifests
+npm install        # only needed for the web-ext scripts below
+npm run lint       # web-ext lint on the Firefox build
 npm run start:firefox
-npm run build     # zip in web-ext-artifacts/
+npm run package    # store-ready zips in dist/
 ```
 
 The parser lives in [`src/parser.js`](src/parser.js) and has no browser
 dependencies, so new formats can be added test-first in
-[`test/parser.test.js`](test/parser.test.js).
+[`test/parser.test.js`](test/parser.test.js). See
+[`PUBLISHING.md`](PUBLISHING.md) for the store submission checklist and
+[`PRIVACY.md`](PRIVACY.md) for the privacy policy.
 
 ## Permissions
 

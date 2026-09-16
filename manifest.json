@@ -22,8 +22,7 @@
       "src/parser.js",
       "src/settings.js",
       "src/background.js"
-    ],
-    "service_worker": "src/background.js"
+    ]
   },
   "action": {
     "default_title": "Coord Jump",
