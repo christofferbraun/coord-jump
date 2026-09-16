@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Coord Jump</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <form id="form">
+    <label for="input">Paste anything containing a latitude/longitude</label>
+    <textarea id="input" rows="3" placeholder="40.7128, -74.0060&#10;40&deg;42'46&quot;N 74&deg;00'21&quot;W&#10;lat: 40.7128 lon: -74.0060" autofocus></textarea>
+    <div id="preview" class="preview" aria-live="polite"></div>
+    <button id="go" type="submit" disabled>Open in Google Maps</button>
+  </form>
+  <p class="hint">Tip: highlight coordinates on any page, then right-click &rarr; <b>Open in Google Maps</b>, or press <kbd id="shortcut">Alt+Shift+G</kbd>.</p>
+  <script src="parser.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

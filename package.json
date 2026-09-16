@@ -1,0 +1,17 @@
+{
+  "name": "coord-jump",
+  "version": "0.1.0",
+  "description": "Browser extension: highlight text containing latitude/longitude and jump straight to it in Google Maps",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "lint": "web-ext lint --source-dir . --ignore-files test package.json package-lock.json node_modules",
+    "start:firefox": "web-ext run --source-dir . --ignore-files test package.json package-lock.json node_modules",
+    "build": "web-ext build --source-dir . --ignore-files test package.json package-lock.json node_modules --overwrite-dest"
+  },
+  "repository": "github:christofferbraun/coord-jump",
+  "license": "MIT",
+  "devDependencies": {
+    "web-ext": "^8.0.0"
+  }
+}
