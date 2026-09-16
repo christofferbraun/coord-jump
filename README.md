@@ -16,7 +16,9 @@ opens the map for you.
 - **Navigate from home** (optional): set a home location in the extension
   settings (coordinates or a street address) and tick the checkbox. A second
   right-click entry and popup button then open Google Maps directions from
-  home to the selected coordinates.
+  home to the selected coordinates. (Browsers put an extension's menu items
+  into a **Coord Jump** submenu as soon as there is more than one; that is
+  enforced by Firefox and Chrome, not something the extension can change.)
 
 ## Formats understood
 
